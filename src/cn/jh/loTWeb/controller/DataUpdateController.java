@@ -18,7 +18,7 @@ public class DataUpdateController extends HttpServlet {
         try {
             double temperature = Double.parseDouble(request.getParameter("t"));
             double humidity = Double.parseDouble(request.getParameter("h"));
-            double weight = Double.parseDouble(request.getParameter("w"));
+            double weight = (Double.parseDouble(request.getParameter("w"))>0)?Double.parseDouble(request.getParameter("w")): -Double.parseDouble(request.getParameter("w"));
             int infaredSensor = Integer.parseInt(request.getParameter("i"));
             int id = Integer.parseInt(request.getParameter("id"));
             Item item = new Item(id,temperature,humidity,weight,infaredSensor);

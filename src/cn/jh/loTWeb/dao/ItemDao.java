@@ -39,6 +39,7 @@ public class ItemDao {
             item =
                     new Item(id,temperature,humidity,weight,infaredSensor);
         }
+        JdbcHelper.close(preparedStatement,connection);
         return item;
     }
 
@@ -46,17 +47,17 @@ public class ItemDao {
     public boolean update(Item item) throws SQLException{
         Connection connection = JdbcHelper.getConn();
         PreparedStatement preparedStatement =//预编译的语句
-                connection.prepareStatement("UPDATE item " +
+                connection.prepareStatement("UPDATE item SET " +
                         "temperature=?," +
                         "humidity=?," +
                         "weight=?," +
-                        "infaredSensor=?," +
-                        " WHERE id=?");
+                        "infaredSensor=? " +
+                        "WHERE id=?");
         preparedStatement.setDouble(1,item.getTemperature());
         preparedStatement.setDouble(2,item.getHumidity());
-        preparedStatement.setDouble(1,item.getWeight());
-        preparedStatement.setInt(2,item.getInfaredSensor());
-        preparedStatement.setInt(1,item.getId());
+        preparedStatement.setDouble(3,item.getWeight());
+        preparedStatement.setInt(4,item.getInfaredSensor());
+        preparedStatement.setInt(5,item.getId());
         int affectedRowNum = preparedStatement.executeUpdate();
         JdbcHelper.close(preparedStatement,connection);
         return affectedRowNum >0;
